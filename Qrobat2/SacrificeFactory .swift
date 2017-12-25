@@ -9,19 +9,19 @@
 import UIKit
 
 class SacrificeFactory {
-    func getSacrifice(sacrificeType: String)->Sacrifice?{
+    func getSacrifice(sacrificeType: String) -> Sacrifice?{
 
         if(sacrificeType == ""){
             return nil
         }
         if(sacrificeType == "lamb"){
-            return lamb()
+            return lamb.init(image: "image", status: "status")
             
         } else if(sacrificeType == "camel"){
-            return Camel()
+            return Camel.init(image: "image", status: "status")
             
         } else if(sacrificeType == "cow"){
-            return Cow()
+            return Cow.init(image: "image", status: "status")
         }
         
         return nil

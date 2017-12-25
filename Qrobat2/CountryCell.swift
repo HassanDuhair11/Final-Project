@@ -9,7 +9,7 @@
 import UIKit
 
 class CountryCell: UICollectionViewCell {
-
+    
     @IBOutlet weak var countryNameLabel: UILabel!
     @IBOutlet weak var countryFlagImageView: UIImageView!
 

@@ -25,7 +25,7 @@ class Sacrifice: Object {
         self.status = status
     }
     
-    func getPrice() -> String{
+    func getPrice(ammount: Int) -> String{
         return ""
     }
 }

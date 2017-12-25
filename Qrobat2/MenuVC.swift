@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NotificationCenter
 
 class MenuVC: UIViewController {
 
@@ -14,18 +15,23 @@ class MenuVC: UIViewController {
     let categories = ["Edit Account", "Delete Account", "Log out"]
     fileprivate let cellId = "cellId"
     
+    let notificationName = Notification.Name("NotificationIdentifier")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellId)
         tableView.delegate = self
-        tableView.dataSource = self // delegate desing pattern
+        tableView.dataSource = self
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(toLoginInScreen), name: NSNotification.Name("NotificationIdentifier"), object: nil)
+        // observer diesgn pattern
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    func toLoginInScreen(){
+        let vc = storyboard?.instantiateViewController(withIdentifier: "mainVC")
+        present(vc!, animated: true, completion: nil)
     }
     
 }
@@ -77,34 +83,18 @@ extension MenuVC: UITableViewDataSource, UITableViewDelegate { // Decerator desi
         let dbUser = DBUser()
         dbUser.deleteUserWith(userName: userName)
      
-        let vc = storyboard?.instantiateViewController(withIdentifier: "mainVC")
-        present(vc!, animated: true, completion: nil)
+        // Post notification
+        NotificationCenter.default.post(name: notificationName, object: nil) // observer diesgn pattern
         
     }
     
     func logOut(){
-        let vc = storyboard?.instantiateViewController(withIdentifier: "mainVC")
-        present(vc!, animated: true, completion: nil)
+        
+        // Post notification
+        NotificationCenter.default.post(name: notificationName, object: nil) // observer diesgn pattern
+    
     }
     
 }
-
-
-/*
- 
- dynamic var userName: String!
- dynamic var password: String!
- dynamic var email: String!
- dynamic var age = 0
- dynamic var country: String!
- dynamic var phoneNumber = 0
- 
- */
-
-
-
-
-
-
 
 

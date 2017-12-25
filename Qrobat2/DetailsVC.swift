@@ -13,22 +13,25 @@ class DetailsVC: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var story: UILabel!
     @IBOutlet weak var ammountTextLabel: UILabel!
-    @IBOutlet weak var productDataPickerView:
-    UIPickerView!
-    var products : [String] = [String]()
+    @IBOutlet weak var productDataPickerView: UIPickerView!
+    @IBOutlet weak var priceLabel: UILabel!
     
+    var sacrifice: Sacrifice?
+    var sacrifices : [String] = [String]()
     var category: Category?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        priceLabel.text = 0.description
         
-        products = ["cow" , "lamp" , "camel"]
+        sacrifices = ["cow" , "lamb" , "camel"]
         productDataPickerView.dataSource = self
         productDataPickerView.delegate = self
 
         imageView.layer.cornerRadius = 15
         imageView.layer.masksToBounds = true
-
+        
         if let c = category {
             self.navigationItem.title = c.name
             let url = URL(string: c.image)
@@ -40,6 +43,13 @@ class DetailsVC: UIViewController {
 
     @IBAction func ammountStepperTapped(_ sender: UIStepper) {
         self.ammountTextLabel.text = Int(sender.value).description
+        self.priceLabel.text = sacrifice?.getPrice(ammount: Int(sender.value))
+    }
+    
+    @IBAction func submetTapped(_ sender: Any) {
+        let payCV = storyboard?.instantiateViewController(withIdentifier: "payVC") as! PayVC
+        payCV.ammont = Int(priceLabel.text!)
+        navigationController?.pushViewController(payCV, animated: true)
     }
 }
 
@@ -50,20 +60,26 @@ extension DetailsVC : UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int{
-        return products.count
+        return sacrifices.count
     }
     
 }
 
 extension DetailsVC : UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return products[row]
+        return sacrifices[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        print(row)
+        let sacrificeFactory = SacrificeFactory()
+        sacrifice = sacrificeFactory.getSacrifice(sacrificeType: sacrifices[row])
+        priceLabel.text = sacrifice?.getPrice(ammount: 1)
     }
 }
+
+
+
+
 
 
 

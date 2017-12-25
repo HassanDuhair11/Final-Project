@@ -11,12 +11,12 @@ import RealmSwift
 
 class lamb: Sacrifice{
 
-    convenience init(name: String, price: Double, image: String, about: String, status: String) {
-        self.init(name: name, price: price, image: image, about: about, status: status)
+    convenience init(image: String, status: String) {
+        self.init(name: "lamb", price: 100, image: image, about: "", status: status)
     }
     
-    override func getPrice() -> String{
-        return "\(price! * 0.9)"
+    override func getPrice(ammount: Int) -> String{
+        return "\(Int(price! + 0.3*price!)*ammount)"
     }
 
 }
